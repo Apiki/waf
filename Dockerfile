@@ -28,7 +28,7 @@ RUN cd /source/ && wget https://www.openssl.org/source/openssl-${OPEN_SSL}.tar.g
 && tar -xzf openssl-${OPEN_SSL}.tar.gz 
 
 RUN cd /source/nginx-${NGINX_VERSION} \
-&& ./configure --prefix=/usr/local/openresty/nginx/conf --modules-path=/usr/lib/nginx/modules --conf-path=/etc/nginx/nginx.conf \
+&& ./configure --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib/nginx/modules --conf-path=/etc/nginx/nginx.conf \
 --with-compat --with-http_realip_module \
 --add-dynamic-module=/source/ModSecurity-nginx \
 --add-module=/source/ngx_brotli \
