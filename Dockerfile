@@ -1,11 +1,11 @@
-FROM nginx:1.19.6
+FROM debian:buster-slim
 
-LABEL maintainer="Mesaque Silva <mesaque.silva@apiki.com>"
+LABEL maintainer="Apiki Team Maintainers <mesaque.silva@apiki.com>"
 
-ENV NGINX_VERSION="1.19.6"
-ENV OWASP_RULES="3.3.0"
-ENV ModSecurity_Branch="v3/master"
-ENV OPEN_SSL 1.1.1h
+ENV NGINX_VERSION 1.19.6
+ENV OWASP_RULES 3.3.0
+ENV ModSecurity_Branch v3/master
+ENV OPEN_SSL 1.1.1i
 
 RUN apt-get update && apt-get install -y --no-install-recommends bison build-essential ca-certificates curl dh-autoreconf doxygen flex gawk git iputils-ping libcurl4-gnutls-dev libexpat1-dev libgeoip-dev liblmdb-dev libpcre3-dev libpcre++-dev libssl-dev libtool libxml2 libxml2-dev libyajl-dev locales lua5.3-dev pkg-config wget zlib1g-dev zlibc && rm -rf /var/lib/apt/lists/* &&  apt-get clean
 
@@ -35,6 +35,10 @@ RUN cd /source/nginx-${NGINX_VERSION} \
 --with-http_v2_module --with-http_ssl_module --with-openssl=/source/openssl-${OPEN_SSL} \
 && make modules && make && make install 
 
-RUN rm -rf /source/
+RUN rm -rf /source/ && apt-get remove --purge --auto-remove -y && rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/nginx.list
 
 RUN ldconfig
+
+STOPSIGNAL SIGQUIT
+
+CMD ["nginx", "-g", "daemon off;"]
