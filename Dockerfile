@@ -32,7 +32,7 @@ RUN cd /source/nginx-${NGINX_VERSION} \
 --with-compat --with-http_realip_module \
 --add-dynamic-module=/source/ModSecurity-nginx \
 --add-module=/source/ngx_brotli \
---with-http_v2_module --with-openssl=/source/openssl-${OPEN_SSL} \
+--with-http_v2_module --with-http_ssl_module --with-openssl=/source/openssl-${OPEN_SSL} \
 && make modules && make && make install 
 
 RUN rm -rf /source/
